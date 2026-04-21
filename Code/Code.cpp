@@ -4,10 +4,13 @@ class Vehicle {
 };
 class ParkingSlot {
 };
+class Admin {
+};
+class Customer {
+};
 class User { 
 };
 class ParkingLot {
-
 };
 int main()
 {
