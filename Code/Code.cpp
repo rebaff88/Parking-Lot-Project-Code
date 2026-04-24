@@ -135,11 +135,48 @@ void SignUpFunction() {
 	string NameOfTheUser;
 	string PasswordOfUser;
 	string RoleOfTheUser;//whether he is a client or admin;
+	cout << "For SignUp:" << endl;
 	cout << "Please Enter Your Name : " << endl;
 	cin >> NameOfTheUser;//input taken
 	cout << "Please Enter Your Password" << endl;
+	cout << "From Below Select Your Role: " << endl;
+	cout << 1. << "Admin" << endl;
+	cout << 2. << "Customer" << endl;
+	cin >> RoleOfTheUser;//inputs so that what kind of role be
+	//selected by the user, will further be used
+	//in other functions as welll
+	//now we just need to create a file which is going to store 
+	//the every data and made it as a record for every user
+	//heere i am going to use file handling so :
+	ofstream file("RecordOfUserData", ios::app);
+	//here i ahve used append, as by this the already recorded
+	//will not get overwritted and the new data will
+	//stored at the end of the file 
+	//now i am going to arrange the sequence to according which 
+	//the data will get store :
+	file << NameOfTheUser << " " << PasswordOfUser << " " << RoleOfTheUser << endl;
+	//now ia hve stored it in a sequence so now i am going
+	//to close the file :
+	file.close();
+	cout << endl;
+	cout << "The SignUp has Been Done Succesfully!" << endl;
 }
-int main() {
+//now for the Login function : 
+//now login will match with the alredy present datya 
+//stored in the file with the new one :
+bool UserLogin(string& TheCurrentUserRole, string& TheCurrentUserName, string& TheCurrentUserPassword) {
+	//role-nme-password arr passed:
+	string r;
+	string u;
+	string p;//local varibales for equalling
+	//now taking the input to compare with the 
+	//prevos data:
+	string NewNameOfUser;//tghe name which is going to gat compare
+	//with the already pesent data in the file :
+	string NewPasswordOfUser;//the password which is going to get compare
+
+}
+int main() { 
 	//creating a parkinglott object:
 	ParkingLot p1;
 	return 0;
