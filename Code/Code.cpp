@@ -1,4 +1,3 @@
-///
 #include<iostream>
 #include<fstream>//this library will handle file handling
 #include<string>//library for string which will help to 
