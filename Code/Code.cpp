@@ -1,3 +1,4 @@
+///
 #include<iostream>
 #include<fstream>//this library will handle file handling
 #include<string>//library for string which will help to 
@@ -137,7 +138,7 @@ void SignUpFunction() {
 	string RoleOfTheUser;//whether he is a client or admin;
 	cout << "Please Enter Your Name : " << endl;
 	cin >> NameOfTheUser;//input taken
-	cout << "Please Enter Your Password"
+	cout << "Please Enter Your Password" << endl;
 }
 int main() {
 	//creating a parkinglott object:
