@@ -35,7 +35,7 @@ public:
 	int getExitTime() { return exitTime; }
 };
 class ParkingLot {
-private:
+private: //changed to private bcz they can only be accessed by admin, not by the user
 	int TotalParkingSlots;
 	int PricePerHour;
 	float RevenueGenerated;
@@ -64,7 +64,7 @@ public:
 	void addRevenue(double amount) { 
 		RevenueGenerated += amount;
 	}
-	//give access of slot array to admin
+	//give access of slot array to admin (getter)
 	parkingSlot* getSlots() { return slots; }
 	//dynamic memory deallocation
 	~ParkingLot() { 
@@ -73,7 +73,7 @@ public:
 		}
 	}
 };
-class User {
+class User { //taken from main to implement Admin class
 protected:
 	string NameOfUser;
 	string PasswordOfUser;
@@ -195,4 +195,14 @@ public:
 			cout << "Account record not found in file..." << endl;
 		}
 	}
+void settParkingLot(ParkingLot& setLot) {
+	int total;
+	cout << "Enter Total Number of Parking Slots : ";
+	cin >> total;
+	if (total <= 0) {
+		cout << "\nInvalid Input. Please enter a positive value!" << endl;
+		return;
+	}
+	setLot.initialiseSlots(total); //func inside ParkingLot class, it will dynamically allocate the no. of slots entered by admin.
+}
 };
