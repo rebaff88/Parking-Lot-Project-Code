@@ -247,11 +247,12 @@ void DeleteTheUserAccount(string& TheCurrentUser) {
 	file.close();
 	temp.close();
 	//the new file enholding the data :
-	remove("RecordOfTheUserData.txt");//removing the orignal file
-	rename("TempFileForUserData.txt", "RecordOfTheUserData.txt");//renaming the new file to the orignal file name)
+	(void)remove("RecordOfTheUserData.txt");//removing the orignal file
+	(void)rename("TempFileForUserData.txt", "RecordOfTheUserData.txt");//renaming the new file to the orignal file name)
 	//everytime the user deletes an account the data will get 
 	//copied and again goes copied in the temp file and the names are interchanged
 	//and the orignal file is removed and the new file is renamed to the orignal file name, so that the data is not lost but the user account is deleted
+	//void is used for acceseing compiler warning as the remove and rename functions return an int value but we are not using it so to avoid the warning we have used void
 }
 int main() { 
 	//creating a parkinglott object:
