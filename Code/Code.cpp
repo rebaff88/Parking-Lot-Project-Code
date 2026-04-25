@@ -227,7 +227,7 @@ int main() {
 				}//otherwise the object of customer will be created:
 				else if (RoleOfUser == "Customer" || RoleOfUser == "customer"){
 					Customer CustomerUser;
-					CustomerUser.ShowTheRole();
+					CustomerUser.ShowTheRole(); 
 				}
 			}
 		}
