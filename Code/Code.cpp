@@ -208,6 +208,7 @@ int main() {
 		if (ChoiceOfUser < 1 || ChoiceOfUser>4) {
 			cout << "Invalid Choice!" << endl;
 			cout << "PLease Input Between 1 and 4" << endl;
+			continue;//loop will be continued
 		}
 		if (ChoiceOfUser == 1) {
 			//simply signin function will get:
@@ -218,13 +219,13 @@ int main() {
 			if (UserLogin(RoleOfUser, NameOfUser, PasswordOfUser) ){
 				cout << "Log-In has Been Performed Successfully!" << endl;
 				if (RoleOfUser == "1") {
-					Admin Admin;//an object of admin lass has
+					Admin AdminUser;//an object of admin lass has
 					//been creatyed
-					Admin.ShowTheRole();
+					AdminUser.ShowTheRole();
 				}//otherwise the object of customer will be created:
 				else {
-					Customer Customer;
-					Customer.ShowTheRole();
+					Customer CustomerUser;
+					CustomerUser.ShowTheRole();
 				}
 			}
 		}
