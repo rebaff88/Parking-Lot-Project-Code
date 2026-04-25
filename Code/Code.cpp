@@ -64,7 +64,7 @@ void SignUpFunction() {
 		cout << "Input Password Again " << endl;
 		return;
 	}
-	cout << "From Below Select Your Role: " << endl;
+	cout << "From Below Select a Numeral Representing  Your Role: " << endl;
 	cout << 1 << " . Admin" << endl;
 	cout << 2 << " . Customer" << endl;
 	cin >> RoleOfTheUser;//inputs so that what kind of role be
@@ -199,7 +199,8 @@ int main() {
 	cout << "1 . Sign-Up  " << endl;
 	cout << "2 . Log-In  " << endl;
 	cout << "3 . Delete Account  " << endl;
-	cout << "4 . Exit  " << endl;
+	cout << "4 . Logout" << endl;
+	cout << "5 . Exit  " << endl;
 	//loop:
 	while (true) {//loop will run continuosly
 		cout << "Please Input Your Choice : " << endl;
@@ -237,8 +238,11 @@ int main() {
 			DeleteTheUserAccount(NameOfUser);//funtion called and parameter has beeen 
 			//passed in it 
 		}
-		//now for the exit::
 		else if (ChoiceOfUser == 4) {
+			UserLogOut(RoleOfUser, NameOfUser, PasswordOfUser);
+		}
+		//now for the exit::
+		else if (ChoiceOfUser == 5) {
 			cout << "Program Has Been Exited Successfully!" << endl;
 			break;//adding break to stop the loop and exit
 		}
