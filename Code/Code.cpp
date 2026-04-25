@@ -181,22 +181,33 @@ bool UserLogin(string& TheCurrentUserRole, string& TheCurrentUserName, string& T
 		cin >> NewPasswordOfUser;
 		//till here inputs for login are taken 
 		//now what ia ma goig to do is simply compare them :
-		//now opening and readiing the file contents:
+		//now opening and readiing the file contents:\
+		
+		bool UserDoExists = false;//this is going to check whether the user exists or not
 		ifstream file("RecordOfUserData");
 		while (file >> u >> p >> r) {
 			//as in the file we have stroed the dta in this format :
 			//name paswrd role, >>: will consider space as seperation
 			//now apllying a conditional to check :
-			if (u == NewNameOfUser && p == NewPasswordOfUser) {
-				//here we are simply first checkin the priority conditionals:
-				TheCurrentUserName = u;
-				TheCurrentUserPassword = p;
-				TheCurrentUserRole = r;//simply assigning the values
-				//which were initialy passed as the parameters:
-				return true;//conditional true , move to next
+			if (u == NewNameOfUser) {
+				UserDoExists = true;//name is found
+				if(p == NewPasswordOfUser) {//pswrd found
+					//here we are simply first checkin the priority conditionals:
+					TheCurrentUserName = u;
+					TheCurrentUserPassword = p;
+					TheCurrentUserRole = r;//simply assigning the values
+					//which were initialy passed as the parameters:
+					return true;//conditional true , move to next
+			    }
 			}
 		}
-		//else:
+		if (UserDoExists) {//ie is false
+			cout << "Incorrect Password," << endl;
+			cout << "Please Try Again!" << endl;
+		}
+		else {//no login is done , has to sign up first
+			cout << "User Not Found In Records" << endl;
+		}
 		return false;//if not found
 }
 int main() { 
