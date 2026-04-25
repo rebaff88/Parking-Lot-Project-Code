@@ -148,7 +148,7 @@ void SignUpFunction() {
 	//now we just need to create a file which is going to store 
 	//the every data and made it as a record for every user
 	//heere i am going to use file handling so :
-	ofstream file("RecordOfUserData", ios::app);
+	ofstream file("RecordOfUserData.txt", ios::app);
 	//here i ahve used append, as by this the already recorded
 	//will not get overwritted and the new data will
 	//stored at the end of the file 
@@ -184,7 +184,7 @@ bool UserLogin(string& TheCurrentUserRole, string& TheCurrentUserName, string& T
 		//now opening and readiing the file contents:\
 		
 		bool UserDoExists = false;//this is going to check whether the user exists or not
-		ifstream file("RecordOfUserData");
+		ifstream file("RecordOfUserData.txt");
 		while (file >> u >> p >> r) {
 			//as in the file we have stroed the dta in this format :
 			//name paswrd role, >>: will consider space as seperation
@@ -219,6 +219,39 @@ void UserLogOut(string& TheCurrentUserRole, string& TheCurrentUserName, string& 
 	//simply assigned new values:
 	cout << "LogOut has Performed Successfully!" << endl;
 	//data is not remoeved just assined new values
+}
+//now what if the user wants to delete his account
+//for this purpose:
+void DeleteTheUserAccount(string& TheCurrentUser) {
+	//here if the user a s a whole gets deleted:
+	//for this we first have to access and write into the file:
+	ifstream file("RecordOfTheUserData.txt");
+	//this is the orignal file which will get opened:
+	ofstream temp("TempFileForUserData.txt");//a temporary file here is created
+	//now i am going to set up  LOOP WHICH IS 
+	//GOING TO CHECK WHERE THE PERSONS USER NAME AND DATA Lies:
+	//for this purpose:
+	string checkUser;
+	string checkPassword;
+	string checkRole;
+	while (file >> checkUser >> checkPassword >> checkRole) {
+		//now using a conditional to check the vulnebilities:
+		if (checkUser != TheCurrentUser) {
+			//means there is no match so move onwards:
+			temp << checkUser << " " << checkPassword << " " << checkRole << endl;
+			//the data will get writted in the same format as the 
+			//orignal file was written in to 
+		}
+	}
+	//now as we opened the files first now closing 
+	file.close();
+	temp.close();
+	//the new file enholding the data :
+	remove("RecordOfTheUserData.txt");//removing the orignal file
+	rename("TempFileForUserData.txt", "RecordOfTheUserData.txt");//renaming the new file to the orignal file name)
+	//everytime the user deletes an account the data will get 
+	//copied and again goes copied in the temp file and the names are interchanged
+	//and the orignal file is removed and the new file is renamed to the orignal file name, so that the data is not lost but the user account is deleted
 }
 int main() { 
 	//creating a parkinglott object:
