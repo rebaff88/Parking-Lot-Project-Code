@@ -81,6 +81,9 @@ public:
 			}
 		}//here the dynamic array will get printed and values will
 		//get assigned to it
+		for (int i = 0; i < 4; i++) {
+			delete[] DynamicMenu[i];
+		}
 	}
 };
 class Customer : public User {
@@ -115,6 +118,9 @@ public:
 		}//here the dynamic array will get printed and values will
 		//get assigned to it
 		cout << endl;
+		for (int i = 0; i < 4; i++) {
+			delete[] DynamicMenu[i];
+		}
 	}
 };
 //now iam going to create a class of vehicles which are going as objects
@@ -137,7 +143,8 @@ void SignUpFunction() {
 	string RoleOfTheUser;//whether he is a client or admin;
 	cout << "For SignUp:" << endl;
 	cout << "Please Enter Your Name : " << endl;
-	cin >> NameOfTheUser;//input taken
+	cin.ignore(); 
+	getline(cin, NameOfTheUser);
 	cout << "Please Enter Your Password" << endl;
 	cout << "From Below Select Your Role: " << endl;
 	cout << 1. << "Admin" << endl;
@@ -176,7 +183,8 @@ bool UserLogin(string& TheCurrentUserRole, string& TheCurrentUserName, string& T
 	string NewPasswordOfUser;//the password which is going to get compare
 	cout << "  For LogIn : " << endl;
 	cout << "Please Enter Your Name : " << endl; 
-		cin >> NewNameOfUser;
+	cin.ignore();
+	getline(cin, NewNameOfUser);
 		cout << "Please Enter Your Password : " << endl;
 		cin >> NewPasswordOfUser;
 		//till here inputs for login are taken 
