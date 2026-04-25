@@ -1,7 +1,6 @@
 #include<iostream>
 #include<fstream>//this library will handle file handling
-#include<string>//library for string which will help to 
-//access functions of strings 
+#include<string>//library for string which will help to  //access functions of strings 
 using namespace std;
 //creating classes:
 // //now i am going to create a class of parking lots:
@@ -146,6 +145,7 @@ void SignUpFunction() {
 	cin.ignore(); 
 	getline(cin, NameOfTheUser);
 	cout << "Please Enter Your Password" << endl;
+	cin >> PasswordOfUser;
 	cout << "From Below Select Your Role: " << endl;
 	cout << 1 << " . Admin" << endl;
 	cout << 2 << " . Customer" << endl;
@@ -156,6 +156,10 @@ void SignUpFunction() {
 	//the every data and made it as a record for every user
 	//heere i am going to use file handling so :
 	ofstream file("RecordOfUserData.txt", ios::app);
+	if (!file) {
+		cout << "Error opening file!" << endl;
+		return;
+	}
 	//here i ahve used append, as by this the already recorded
 	//will not get overwritted and the new data will
 	//stored at the end of the file 
