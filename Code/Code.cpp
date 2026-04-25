@@ -239,7 +239,7 @@ int main() {
 		//now for the exit::
 		else if (ChoiceOfUser == 4) {
 			cout << "Program Has Been Exited Successfully!" << endl;
-			break;//adding break to stop the loop
+			break;//adding break to stop the loop and exit
 		}
 	}
 	return 0;
