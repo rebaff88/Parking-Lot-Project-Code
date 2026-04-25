@@ -220,9 +220,6 @@ void UserLogOut(string& TheCurrentUserRole, string& TheCurrentUserName, string& 
 	cout << "LogOut has Performed Successfully!" << endl;
 	//data is not remoeved just assined new values
 }
-//now what if the user wants to delete his account
-//for this purpose:
-
 int main() { 
 	//creating a parkinglott object:
 	//ParkingLot p1;
