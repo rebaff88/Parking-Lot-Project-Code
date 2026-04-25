@@ -207,7 +207,7 @@ int main() {
 		cout << "Please Input Your Choice : " << endl;
 		cin >> ChoiceOfUser;
 		//first lets give a check so that choice is valid:
-		if (ChoiceOfUser < 1 || ChoiceOfUser>4) {
+		if (ChoiceOfUser < 1 || ChoiceOfUser>5) {
 			cout << "Invalid Choice!" << endl;
 			cout << "PLease Input Between 1 and 4" << endl;
 			continue;//loop will be continued
@@ -220,12 +220,12 @@ int main() {
 			//now checking what is the role of the user:
 			if (UserLogin(RoleOfUser, NameOfUser, PasswordOfUser) ){
 				cout << "Log-In has Been Performed Successfully!" << endl;
-				if (RoleOfUser == "1") {
+				if (RoleOfUser == "Admin"||RoleOfUser =="admin") {
 					Admin AdminUser;//an object of admin lass has
 					//been creatyed
 					AdminUser.ShowTheRole();
 				}//otherwise the object of customer will be created:
-				else {
+				else if (RoleOfUser == "Customer" || RoleOfUser == "customer"){
 					Customer CustomerUser;
 					CustomerUser.ShowTheRole();
 				}
