@@ -174,10 +174,33 @@ bool UserLogin(string& TheCurrentUserRole, string& TheCurrentUserName, string& T
 	string NewNameOfUser;//tghe name which is going to gat compare
 	//with the already pesent data in the file :
 	string NewPasswordOfUser;//the password which is going to get compare
-
+	cout << "  For LogIn : " << endl;
+	cout << "Please Enter Your Name : " << endl; 
+		cin >> NewNameOfUser;
+		cout << "Please Enter Your Password : " << endl;
+		cin >> NewPasswordOfUser;
+		//till here inputs for login are taken 
+		//now what ia ma goig to do is simply compare them :
+		//now opening and readiing the file contents:
+		ifstream file("RecordOfUserData");
+		while (file >> u >> p >> r) {
+			//as in the file we have stroed the dta in this format :
+			//name paswrd role, >>: will consider space as seperation
+			//now apllying a conditional to check :
+			if (u == NewNameOfUser && p == NewPasswordOfUser) {
+				//here we are simply first checkin the priority conditionals:
+				TheCurrentUserName = u;
+				TheCurrentUserPassword = p;
+				TheCurrentUserRole = r;//simply assigning the values
+				//which were initialy passed as the parameters:
+				return true;//conditional true , move to next
+			}
+		}
+		//else:
+		return false;//if not found
 }
 int main() { 
 	//creating a parkinglott object:
-	ParkingLot p1;
+	//ParkingLot p1;
 	return 0;
 }
