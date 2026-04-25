@@ -189,6 +189,7 @@ void DeleteTheUserAccount(string& TheCurrentUser) {
 	//copied and again goes copied in the temp file and the names are interchanged
 	//and the orignal file is removed and the new file is renamed to the orignal file name, so that the data is not lost but the user account is deleted
 	//void is used for acceseing compiler warning as the remove and rename functions return an int value but we are not using it so to avoid the warning we have used void
+	cout << "Account Has Been Deleted Successfully!" << endl;
 }
 int main() { 
 	int ChoiceOfUser=0;//initializing and declaring
