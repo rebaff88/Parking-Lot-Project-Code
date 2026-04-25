@@ -147,8 +147,8 @@ void SignUpFunction() {
 	getline(cin, NameOfTheUser);
 	cout << "Please Enter Your Password" << endl;
 	cout << "From Below Select Your Role: " << endl;
-	cout << 1. << "Admin" << endl;
-	cout << 2. << "Customer" << endl;
+	cout << 1 << " . Admin" << endl;
+	cout << 2 << " . Customer" << endl;
 	cin >> RoleOfTheUser;//inputs so that what kind of role be
 	//selected by the user, will further be used
 	//in other functions as welll
