@@ -2,23 +2,6 @@
 #include<fstream>//this library will handle file handling
 #include<string>//library for string which will help to  //access functions of strings 
 using namespace std;
-//creating classes:
-// //now i am going to create a class of parking lots:
-class ParkingLot {
-	//also this class will be public
-	//making data members and the functions public,
-	//as they are going to get used in the main function:
-public:
-	int TotalParkingLots;
-	int PricePerHour;
-	int RevenueGenerated;
-	//constructor; default
-	ParkingLot() {
-		TotalParkingLots = 0;
-		PricePerHour = 0;
-		RevenueGenerated = 0;
-	}
-};
 // starting with the user class:
 class User {
 	//data members will be protected:
@@ -47,91 +30,6 @@ public:
 		//now creating a getter function for the password of the user:
 		return PasswordOfUser;
 	}
-};
-//now here, the parent class is the user, below are some of 
-//the child classes of it;
-class Admin : public User {
-	//this class is parent, 
-public:
-	Admin() {
-		//default Constructor
-	}
-	//creating a  function to print the menu:
-	void PrintTheAdminMenu() {
-		cout << endl;
-		for (int i = 0; i < 80; i++) {
-			cout << "-";
-		}
-		cout << endl;
-		cout << "Admin Menu" << endl;
-		string Menu[4][1] = {
-			{"View Parking Slots"},
-			{"View Revenue"},
-			{"Change Rate"},
-			{"Logout"}
-		};
-		//now strong this data in a dynamic array:
-		string** DynamicMenu = new string * [4];
-		for (int i = 0; i < 4; i++) {
-			DynamicMenu[i] = new string[1];
-			for (int j = 0; j < 1; j++) {
-				DynamicMenu[i][j] = Menu[i][j];
-				cout << i + 1 << " . " << DynamicMenu[i][j] << endl;
-			}
-		}//here the dynamic array will get printed and values will
-		//get assigned to it
-		for (int i = 0; i < 4; i++) {
-			delete[] DynamicMenu[i];
-		}
-	}
-};
-class Customer : public User {
-	//this class is parent, 
-public:
-	Customer() {
-		//default Constructor
-	}
-	//creating a  function to print the menu:
-	void PrintTheCustomerMenu() {
-		cout << endl;
-		for (int i = 0; i < 80; i++) {
-			cout << "-";
-		}
-		cout << endl;
-		cout << "Customer Menu" << endl;
-		string Menu[4][1] = {
-			{"Park Vehicle"},
-			{"Exit Vehicle"},
-			{"View Slots"},
-			{"Logout"}
-		};
-		cout << endl;
-		//now strong this data in a dynamic array:
-		string** DynamicMenu = new string * [4];
-		for (int i = 0; i < 4; i++) {
-			DynamicMenu[i] = new string[1];
-			for (int j = 0; j < 1; j++) {
-				DynamicMenu[i][j] = Menu[i][j];
-				cout << i + 1 << " . " << DynamicMenu[i][j] << endl;
-			}
-		}//here the dynamic array will get printed and values will
-		//get assigned to it
-		cout << endl;
-		for (int i = 0; i < 4; i++) {
-			delete[] DynamicMenu[i];
-		}
-	}
-};
-//now iam going to create a class of vehicles which are going as objects
-//in the parking lot:
-class Vehicle {
-	//making the data members and functions public:
-public:
-	string NumberPlateOfVehicle;//as the number plates can
-	//be comprised of numeric and alphabetic letters
-	string TypeOfVehicle;//is it for example car or what
-	int VehicleTimeOfEntry;
-	int VehicleTimeOfExit;//time required
 };
 //now here i am going to create some of the functions regarding the 
 //various functions related to the user interface :
@@ -225,9 +123,9 @@ bool UserLogin(string& TheCurrentUserRole, string& TheCurrentUserName, string& T
 //now for logout:
 void UserLogOut(string& TheCurrentUserRole, string& TheCurrentUserName, string& TheCurrentUserPassword) {
 	//simply iam just going to reset the data or empty it:
-	TheCurrentUserName = " ";
-	TheCurrentUserPassword = " ";
-	TheCurrentUserRole = " ";
+	TheCurrentUserName = "";
+	TheCurrentUserPassword = "";
+	TheCurrentUserRole = "";
 	//simply assigned new values:
 	cout << "LogOut has Performed Successfully!" << endl;
 	//data is not remoeved just assined new values
