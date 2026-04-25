@@ -7,32 +7,47 @@ class User {
 	//data members will be protected:
 protected:
 	//this is going to have two data members:
-	string NameOfUser;
-	string PasswordOfUser;//i have used string so that; the user
+	string UserName;
+	string UserPassword;//i have used string so that; the user
 	//can eneter both letters and numbers.
 public:
 	//now i am going to create the functions, constructers:
 	User() {
-		NameOfUser = "No Name";
-		PasswordOfUser = "No Password";
+		UserName = "No Name";
+		UserPassword = "No Password";
 	}
 	//creating a setter function
 	void SetData(string u, string p) {
-		NameOfUser = u;//setting the values of the data members 
-		PasswordOfUser = p;
+		UserName = u;//setting the values of the data members 
+		UserPassword = p;
 	}
 	string GetNameOfUser() {
 		//creating agetter function so that the desired value
 		//will get returned:
-		return NameOfUser;
+		return UserName;
 	}
 	string GetPasswordOfUser() {
 		//now creating a getter function for the password of the user:
-		return PasswordOfUser;
+		return UserPassword;
 	}
 };
 //now here i am going to create some of the functions regarding the 
 //various functions related to the user interface :
+class Admin : public  User {
+	//now here admin is a derived class:
+public:
+	void ShowTheRole() {
+		cout << "You Have Been Logged In As An Admin!" << endl;
+	//admin class
+	}
+};
+class Customer : public User {
+public:
+	void ShowTheRole() {
+		cout << "You Have Been Logged In As An Customer!" << endl;
+		//Customer class
+	}
+};
 void SignUpFunction() {
 	//this function will work on the signup, done:
 	string NameOfTheUser;
@@ -41,9 +56,14 @@ void SignUpFunction() {
 	cout << "For SignUp:" << endl;
 	cout << "Please Enter Your Name : " << endl;
 	cin.ignore(); 
-	getline(cin, NameOfTheUser);
+	getline(cin, NameOfTheUser);//will take name and even full name
 	cout << "Please Enter Your Password" << endl;
 	cin >> PasswordOfUser;
+	if (PasswordOfUser.length() < 4) {
+		cout << "Password Must Be Comprised of At Least 4 Characters!" << endl;
+		cout << "Input Password Again " << endl;
+		return;
+	}
 	cout << "From Below Select Your Role: " << endl;
 	cout << 1 << " . Admin" << endl;
 	cout << 2 << " . Customer" << endl;
@@ -171,6 +191,57 @@ void DeleteTheUserAccount(string& TheCurrentUser) {
 	//void is used for acceseing compiler warning as the remove and rename functions return an int value but we are not using it so to avoid the warning we have used void
 }
 int main() { 
-	
+	int ChoiceOfUser=0;//initializing and declaring
+	string RoleOfUser;
+	string NameOfUser;
+	string PasswordOfUser;
+	//now implementing the already created functions :
+	cout << "1 . Sign-Up  " << endl;
+	cout << "2 . Log-In  " << endl;
+	cout << "3 . Delete Account  " << endl;
+	cout << "4 . Exit  " << endl;
+	//loop:
+	while (true) {//loop will run continuosly
+		cout << "Please Input Your Choice : " << endl;
+		cin >> ChoiceOfUser;
+		//first lets give a check so that choice is valid:
+		if (ChoiceOfUser < 1 || ChoiceOfUser>4) {
+			cout << "Invalid Choice!" << endl;
+			cout << "PLease Input Between 1 and 4" << endl;
+		}
+		if (ChoiceOfUser == 1) {
+			//simply signin function will get:
+			SignUpFunction();
+		}
+		else if (ChoiceOfUser == 2) {
+			//now checking what is the role of the user:
+			if (UserLogin(RoleOfUser, NameOfUser, PasswordOfUser) ){
+				cout << "Log-In has Been Performed Successfully!" << endl;
+				if (RoleOfUser == "1") {
+					Admin Admin;//an object of admin lass has
+					//been creatyed
+					Admin.ShowTheRole();
+				}//otherwise the object of customer will be created:
+				else {
+					Customer Customer;
+					Customer.ShowTheRole();
+				}
+			}
+		}
+		//now for the next possibilty of Choice :
+		else if (ChoiceOfUser == 3) {
+			//the user has selected to delete the account:
+			cout << "Enter Your UserName to Delete Your Account: " << endl;
+			cin >> NameOfUser;
+			DeleteTheUserAccount(NameOfUser);//funtion called and parameter has beeen 
+			//passed in it 
+		}
+		//now for the exit::
+		else if (ChoiceOfUser == 4) {
+			cout << "Program Has Been Exited Successfully!" << endl;
+			break;//adding break to stop the loop
+		}
+	}
 	return 0;
 }
+
