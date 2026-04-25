@@ -225,7 +225,7 @@ void UserLogOut(string& TheCurrentUserRole, string& TheCurrentUserName, string& 
 void DeleteTheUserAccount(string& TheCurrentUser) {
 	//here if the user a s a whole gets deleted:
 	//for this we first have to access and write into the file:
-	ifstream file("RecordOfTheUserData.txt");
+	ifstream file("RecordOfUserData.txt");
 	//this is the orignal file which will get opened:
 	ofstream temp("TempFileForUserData.txt");//a temporary file here is created
 	//now i am going to set up  LOOP WHICH IS 
@@ -234,6 +234,7 @@ void DeleteTheUserAccount(string& TheCurrentUser) {
 	string checkUser;
 	string checkPassword;
 	string checkRole;
+	bool foundData = false;
 	while (file >> checkUser >> checkPassword >> checkRole) {
 		//now using a conditional to check the vulnebilities:
 		if (checkUser != TheCurrentUser) {
@@ -242,13 +243,18 @@ void DeleteTheUserAccount(string& TheCurrentUser) {
 			//the data will get writted in the same format as the 
 			//orignal file was written in to 
 		}
+		else {
+			foundData = true;//data is found and not written in the new file
+			//as we are going to delete the account so we are not 
+			//writing it in the new file
+		}
 	}
 	//now as we opened the files first now closing 
 	file.close();
 	temp.close();
 	//the new file enholding the data :
-	(void)remove("RecordOfTheUserData.txt");//removing the orignal file
-	(void)rename("TempFileForUserData.txt", "RecordOfTheUserData.txt");//renaming the new file to the orignal file name)
+	(void)remove("RecordOfUserData.txt");//removing the orignal file
+	(void)rename("TempFileForUserData.txt", "RecordOfUserData.txt");//renaming the new file to the orignal file name)
 	//everytime the user deletes an account the data will get 
 	//copied and again goes copied in the temp file and the names are interchanged
 	//and the orignal file is removed and the new file is renamed to the orignal file name, so that the data is not lost but the user account is deleted
