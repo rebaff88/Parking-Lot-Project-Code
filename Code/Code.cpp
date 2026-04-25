@@ -171,7 +171,6 @@ void DeleteTheUserAccount(string& TheCurrentUser) {
 	//void is used for acceseing compiler warning as the remove and rename functions return an int value but we are not using it so to avoid the warning we have used void
 }
 int main() { 
-	//creating a parkinglott object:
-	//ParkingLot p1;
+	
 	return 0;
 }
