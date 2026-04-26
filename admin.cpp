@@ -257,4 +257,12 @@ int newRate;
 	cout<<"Hourly Rate Updated to: Rs. "<<newRate<<" /hour successfully! "<<endl;
 	cout<<"All future checkouts will use this rate!"<<endl;
 }
+void displayParkingHistory(){
+    cout<<"\n====PARKING HISTORY STATUS===="<<endl;
+	ifstream file("ParkingHistory.txt");
+	if(!file.is_open()) {
+		cout<<"No parking history found!"<<endl;
+		return;
+	}
+}	
 };
