@@ -264,5 +264,18 @@ void displayParkingHistory(){
 		cout<<"No parking history found!"<<endl;
 		return;
 	}
-}	
+	//display info table
+	cout << left << setw(18) << "Vehicle No." << setw(12) << "Type" << setw(12) << "Entry" << setw(12) << "Exit" << setw(14) << "Duration(hrs)" << setw(12) << "Fee (Rs.)" << endl;
+	for (int i = 0; i < 80; i++) cout << "-";
+	cout << endl;
+	string vehicleNum, vehicleType, entryTime, exitTime;
+	double duration, fee;
+	bool found = false;
+	while (file >> vehicleNum >> vehicleType >> entryTime >> exitTime >> duration >> fee) {
+		found = true;
+		cout << left << setw(18) << vehicleNum << setw(12) << vehicleType << setw(12) << entryTime << setw(12) << exitTime << setw(14) << fixed << setprecision(2) << duration << setw(12) << fixed << setprecision(2) << fee << endl;
+	}
+	if (!found) cout << "No records found!" << endl;
+	file.close();
+}
 };
