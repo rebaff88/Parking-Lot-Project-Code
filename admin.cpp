@@ -278,4 +278,20 @@ void displayParkingHistory(){
 	if (!found) cout << "No records found!" << endl;
 	file.close();
 }
+void displayAdminMenu() {
+	cout << endl;
+	for (int i = 0; i < 40; i++) cout << "=";
+	cout << "\n ADMIN PANEL " << NameOfUser << endl;
+	for (int i = 0; i < 40; i++) cout << "=";
+	cout << endl;
+	cout << " 1. View Parking Slots" << endl;
+	cout << " 2. View Revenue Generated" << endl;
+	cout << " 3. Change Hourly Rate" << endl;
+	cout << " 4. View Parking History" << endl;
+	cout << " 5. Resize Parking Lot" << endl;
+	cout << " 6. Delete Account" << endl;
+	cout << " 7. Logout" << endl;
+	for (int i = 0; i < 40; i++) cout << "=";
+	cout << "Enter your Choice : ";
+}
 };
