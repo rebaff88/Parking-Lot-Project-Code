@@ -154,7 +154,7 @@ void UserLogOut(string& TheCurrentUserRole, string& TheCurrentUserName, string& 
 //for this purpose:
 void DeleteTheUserAccount(string& TheCurrentUser) {
 	//here if the user a s a whole gets deleted:
-	//for this we first have to access and write into the file:
+	//for this we first have to access and write into the file:   
 	ifstream file("RecordOfUserData.txt");
 	//this is the orignal file which will get opened:
 	ofstream temp("TempFileForUserData.txt");//a temporary file here is created
