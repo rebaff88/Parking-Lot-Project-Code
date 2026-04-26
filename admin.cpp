@@ -294,4 +294,29 @@ void displayAdminMenu() {
 	for (int i = 0; i < 40; i++) cout << "=";
 	cout << "Enter your Choice : ";
 }
+void runAdminSession(ParkingLot& lot) {
+	int choice;
+	bool running = true;
+	displayAdminMenu();
+	while (running) {
+		cin >> choice;
+		if (choice <= 0 || choice > 7) {
+			cout << "\nInvalid choice. Please enter a number between 1 & 7!" << endl;
+			return;
+		}
+		if (choice == 1) displayParkingSlots(lot);
+		else if (choice == 2) displayRevenue(lot);
+		else if (choice == 3) updateRate(lot);
+		else if (choice == 4) displayParkingHistory();
+		else if (choice == 5) settParkingLot(lot);
+		else if (choice == 6) {
+			deleteAdminAccount();
+			running = false;  // force logout after deletion
+		}
+		else if (choice == 7) {
+			cout << "\nLogged out successfully. Goodbye, " << NameOfUser << "!" << endl;
+			running = false;
+		}
+	}
+}
 };
