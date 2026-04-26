@@ -236,4 +236,10 @@ void viewParkingSlots(ParkingLot& viewLot) {
     //display final information below the table	
 	cout << "Total Slots : " << viewLot.getTotalSlots() << "  |  Occupied : " << occupied << "  |  Available : " << available << endl;
 }
+void viewRevenue(ParkingLot& lotRev) {
+	cout << "\n========== REVENUE REPORT ==========\n"; 
+	//accessing through getter functions from class ParkingLot
+	cout << "Current Hourly Rate: Rs. " << lotRev.getPricePerHour() << " / hour" << endl;
+	cout << "Total Revenue Earned: Rs. " << fixed << setprecision(2) << lotRev.getRevenueGenerated() << endl;
+}
 };
