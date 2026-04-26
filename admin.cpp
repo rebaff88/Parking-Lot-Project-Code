@@ -205,4 +205,35 @@ void settParkingLot(ParkingLot& setLot) {
 	}
 	setLot.initialiseSlots(total); //func inside ParkingLot class, it will dynamically allocate the no. of slots entered by admin.
 }
+void viewParkingSlots(ParkingLot& viewLot) {
+	cout << "\n========== PARKING SLOT STATUS ==========\n";
+	if (viewLot.getTotalSlots() == 0) { //if admin hasn't initialized any slots
+		cout << "No slots initialised yet..." << endl;
+		return;
+	}
+	//display information table
+	cout << left << setw(8) << "Slot" << setw(12) << "Status" << setw(18) << "Vehicle No." << setw(12) << "Type" << setw(12) << "Entry Time" << endl;
+	for (int i = 0; i < 60; i++) cout << "-";
+	cout << endl;
+	parkingSlot* slots = viewLot.getSlots(); //dynamically initialize no. of slots entered
+	//slot occupation logic
+	int occupied = 0;
+	int available = 0;
+	for (int i = 0; i < viewLot.getTotalSlots(); i++) {
+		cout << left << setw(8) << slots[i].getSlotNum();
+		if (slots[i].getIsOccupied()) {
+			occupied++;
+			cout << setw(12) << "OCCUPIED" << setw(18) << slots[i].getVehicleNumber() << setw(12) << slots[i].getVehicleType() << setw(12) << slots[i].getEntryTime();
+		}
+		else {
+			available++;
+			cout << setw(12) << "FREE" << setw(18) << "---" << setw(12) << "---" << setw(12) << "---";
+		}
+		cout << endl;
+	}
+	for (int i = 0; i < 60; i++) cout << "-";
+	cout << endl;
+    //display final information below the table	
+	cout << "Total Slots : " << viewLot.getTotalSlots() << "  |  Occupied : " << occupied << "  |  Available : " << available << endl;
+}
 };
