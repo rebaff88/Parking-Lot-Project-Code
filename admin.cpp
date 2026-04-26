@@ -6,16 +6,16 @@ using namespace std;
 class parkingSlot {
 private:
 	int slotNum;
-	int entryTime; //stored as HH:MM  e.g. 14:30 = 2:30 PM
-	int exitTime;
+	string entryTime; //stored as HH:MM  e.g. 14:30 = 2:30 PM
+	string exitTime;
 	string vehicleNum;
 	string vehicleType;
 	bool isOccupied;
 public:
 	parkingSlot() { //default constructor
 		slotNum = 0;
-		entryTime = 0;
-		exitTime = 0;
+		entryTime = "";
+		exitTime = "";
 		vehicleNum = "";
 		vehicleType = "";
 		isOccupied = false;
@@ -25,14 +25,14 @@ public:
 	void setStatus(bool occ) { isOccupied = occ; }
 	void setVehicleNum(string vn) { vehicleNum = vn; }
 	void setVehicleType(string vt) { vehicleType = vt; }
-	void setEntryTime(int ent) { entryTime = ent; }
-	void setExitTime(int ext) { exitTime = ext; }
+	void setEntryTime(string ent) { entryTime = ent; }
+	void setExitTime(string ext) { exitTime = ext; }
 	int getSlotNum() { return slotNum; }
 	bool getIsOccupied() { return isOccupied; }
 	string getVehicleNumber() { return vehicleNum; }
 	string getVehicleType() { return vehicleType; }
-	int getEntryTime() { return entryTime; }
-	int getExitTime() { return exitTime; }
+	string getEntryTime() { return entryTime; }
+	string getExitTime() { return exitTime; }
 };
 class ParkingLot {
 private: //changed to private bcz they can only be accessed by admin, not by the user
