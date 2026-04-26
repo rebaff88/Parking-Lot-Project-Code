@@ -205,7 +205,7 @@ void settParkingLot(ParkingLot& setLot) {
 	}
 	setLot.initialiseSlots(total); //func inside ParkingLot class, it will dynamically allocate the no. of slots entered by admin.
 }
-void viewParkingSlots(ParkingLot& viewLot) {
+void displayParkingSlots(ParkingLot& viewLot) {
 	cout << "\n========== PARKING SLOT STATUS ==========\n";
 	if (viewLot.getTotalSlots() == 0) { //if admin hasn't initialized any slots
 		cout << "No slots initialised yet..." << endl;
@@ -236,7 +236,7 @@ void viewParkingSlots(ParkingLot& viewLot) {
     //display final information below the table	
 	cout << "Total Slots : " << viewLot.getTotalSlots() << "  |  Occupied : " << occupied << "  |  Available : " << available << endl;
 }
-void viewRevenue(ParkingLot& lotRev) {
+void displayRevenue(ParkingLot& lotRev) {
 	cout << "\n========== REVENUE REPORT ==========\n"; 
 	//accessing through getter functions from class ParkingLot
 	cout << "Current Hourly Rate: Rs. " << lotRev.getPricePerHour() << " / hour" << endl;
