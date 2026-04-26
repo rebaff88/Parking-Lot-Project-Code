@@ -242,4 +242,19 @@ void displayRevenue(ParkingLot& lotRev) {
 	cout << "Current Hourly Rate: Rs. " << lotRev.getPricePerHour() << " / hour" << endl;
 	cout << "Total Revenue Earned: Rs. " << fixed << setprecision(2) << lotRev.getRevenueGenerated() << endl;
 }
+void updateRate(ParkingLot& lotRate){
+int newRate;
+	cout<<"\n====CHANGE HOURLY PARKING RATE===="<<endl;
+	//access current rate through getter 
+	cout<<"Current Hourly Rate: Rs. "<<lotRate.getPricePerHour()<<" /hour "<<endl;
+	cout<<"Enter New Rate: ";
+	cin>>newRate;
+	if(newRate<=0){
+		cout<<"Invalid Rate. Please enter a positive value!"<<endl;
+        return;
+	}
+	lotRate.SetPricePerHour(newRate); //updates price through class ParkingLot
+	cout<<"Hourly Rate Updated to: Rs. "<<newRate<<" /hour successfully! "<<endl;
+	cout<<"All future checkouts will use this rate!"<<endl;
+}
 };
