@@ -140,6 +140,22 @@ double ParkingLot::calculateFee(double hours, double ratePerHour) const {
     //total fee = time * rate
     return hours * ratePerHour;
 }
+int ParkingLot::getAllSlotsSnapshot(SlotSnapshot outSnaps[], int maxCount) const {
+    int count = (totalSlots < maxCount) ? totalSlots : maxCount;
+    for (int i = 0; i < count; i++) {
+        SlotSnapshot ss;
+        ss.slotNumber = parkingSlots[i].getSlotNumber();
+        ss.occupied = parkingSlots[i].getIsOccupied();
+        if (ss.occupied) {
+            ss.vehicleNumber = parkingSlots[i].getParkedVehicle().getVehicleNumber();
+            ss.vehicleType = parkingSlots[i].getParkedVehicle().getVehicleType();
+            ss.entryTime = parkingSlots[i].getParkedVehicle().getEntryTimeStr();
+            ss.lockedRate = parkingSlots[i].getLockedRate();
+        }
+        outSnaps[i] = ss;
+    }
+    return count;
+}
 //25L-2056
 //setting & file format, slots=20, revenue=1500.00, rate_Car=50.00, rate_Bike=30.00, rate_Truck=80.00
 void ParkingLot::loadSettings() {
