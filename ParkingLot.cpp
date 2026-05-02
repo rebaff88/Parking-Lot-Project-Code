@@ -250,7 +250,38 @@ User* ParkingLot::loginUser(const string& uname, const string& pwd) {
     }
     return nullptr;
 }
-
+//DELETE USER (25L-5683)
+bool ParkingLot::deleteUser(const string& unameDisplay, string* outMsg) {
+    // UI se ab "username (Role)" aayega, isliye asal username nikalna zaroori hai:
+    string actualUname = unameDisplay;
+    size_t pos = actualUname.find(" (");
+    if (pos != string::npos) {
+        actualUname = actualUname.substr(0, pos); // Sirf naam wala hissa alag kar liya
+    }
+    ifstream fin(USERS_FILE);
+    if (!fin.is_open()) { if (outMsg) *outMsg = "No users file."; return false; }
+    const int MAX_U = 1000;
+    string lines[MAX_U];
+    int count = 0;
+    string line;
+    bool found = false;
+    while (getline(fin, line) && count < MAX_U) {
+        if (line.empty()) continue;
+        // Asal username se match karna
+        if (line.substr(0, line.find('|')) == actualUname) {
+            found = true;
+            continue; // Is line ko skip kar do (yani delete kar do)
+        }
+        lines[count++] = line;
+    }
+    fin.close();
+    if (!found) { if (outMsg) *outMsg = "User not found."; return false; }
+    ofstream fout(USERS_FILE);
+    for (int i = 0; i < count; i++) fout << lines[i] << "\n";
+    if (outMsg) *outMsg = "User '" + actualUname + "' deleted successfully.";
+    return true;
+}
+//====================================================================
 int ParkingLot::getAllUsernames(string outUsers[], int maxLen) const {
     ifstream fin(USERS_FILE);
     int count = 0;
