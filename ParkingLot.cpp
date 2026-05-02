@@ -186,5 +186,88 @@ void ParkingLot::saveSettings() {
      << "rate_Truck = " << rateValues[2] << endl;
     fout.close();
 }
+//user manangement
+bool ParkingLot::userExists(const string& uname) const {
+    ifstream fin(USERS_FILE);
+    if (!fin.is_open()) return false;
+    string line;
+    while (getline(fin, line)) {
+        if (line.empty()) continue;
+        //Using '|' as separator
+        if (line.substr(0, line.find('|')) == uname) return true;
+    }
+    return false;
+}
+bool ParkingLot::signupUser(const string& uname, const string& pwd,
+    const string& role, string* outMsg) {
+//VALIDATION CHECKS
+    //username length
+    if (uname.length() < 6 || uname.length() > 16) {
+        if (outMsg) *outMsg = "Username must be between 6 and 16 characters!";
+        return false;
+    }
+    //illegal character
+    if (uname.find('|') != string::npos) {
+        if (outMsg) *outMsg = "Username cannot contain the '|' character!";
+        return false;
+    }
+    //password length
+    if (pwd.length() < 8 || pwd.length() > 16) {
+        if (outMsg) *outMsg = "Password must be between 8 and 16 characters!";
+        return false;
+    }
+    //password illegal character
+    if (pwd.find('|') != string::npos) {
+        if (outMsg) *outMsg = "Password cannot contain the '|' character!";
+        return false;
+    }
+    if (userExists(uname)) {
+        if (outMsg) *outMsg = "Username already exists!";
+        return false;
+    }
+    ofstream fout(USERS_FILE, ios::app);
+    //saved using '|' separator
+    fout << uname << "|" << pwd << "|" << role << "\n";
+    if (outMsg) *outMsg = "Account created for: " + uname + " [" + role + "]";
+    return true;
+}
+User* ParkingLot::loginUser(const string& uname, const string& pwd) {
+    ifstream fin(USERS_FILE);
+    if (!fin.is_open()) return nullptr;
+    string line;
+    while (getline(fin, line)) {
+        if (line.empty()) continue;
+        stringstream ss(line);
+        string u, p, r;
+        //read using '|' separator
+        getline(ss, u, '|');
+        getline(ss, p, '|');
+        getline(ss, r, '|');
+        if (u == uname && p == pwd) {
+            if (r == "Admin") return new Admin(u, p);
+            else return new Customer(u, p);
+        }
+    }
+    return nullptr;
+}
+
+int ParkingLot::getAllUsernames(string outUsers[], int maxLen) const {
+    ifstream fin(USERS_FILE);
+    int count = 0;
+    if (!fin.is_open()) return 0;
+    string line;
+    while (getline(fin, line) && count < maxLen) {
+        if (line.empty()) continue;
+        stringstream ss(line);
+        string u, p, r;
+        // Pipe '|' se alag alag values read karna
+        getline(ss, u, '|');
+        getline(ss, p, '|');
+        getline(ss, r, '|');
+        // Yahan hum Username aur Role ko aapas mein jor kar bhej rahe hain
+        outUsers[count++] = u + " (" + r + ")";
+    }
+    return count;
+}
 
 
