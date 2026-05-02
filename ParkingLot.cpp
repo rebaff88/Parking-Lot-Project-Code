@@ -327,6 +327,38 @@ bool ParkingLot::checkoutVehicle(const string& username, int slotNum, ParkingRec
     if (outMsg) *outMsg = "Checkout successful.";
     return true;
 }
+//get stas
+int ParkingLot::getTotalSlots() const { return totalSlots; }
+int ParkingLot::getOccupiedSlots()  const {
+    int c = 0;
+    for (int i = 0; i < totalSlots; i++)
+        if (parkingSlots[i].getIsOccupied()) c++;
+    return c;
+}
+int ParkingLot::getAvailableSlots() const {
+    return totalSlots - getOccupiedSlots();
+}
+//helpers functions
+int ParkingLot::findSlotByVehicle(const string& vNum) const {
+    for (int i = 0; i < totalSlots; i++) {
+        // Check if slot is occupied and vehicle number matches
+        if (parkingSlots[i].getIsOccupied()) {
+            if (parkingSlots[i].getParkedVehicle().getVehicleNumber() == vNum) {
+                return i; // Slot index mil gaya
+            }
+        }
+    }
+    return -1; // Gaari nahi mili
+}
+int ParkingLot::findFirstAvailableSlot() const {
+    for (int i = 0; i < totalSlots; i++) {
+        // Agar slot khali hai to uska index return kar do
+        if (!parkingSlots[i].getIsOccupied()) {
+            return i;
+        }
+    }
+    return -1; // Parking full hai
+}
 
 
 
