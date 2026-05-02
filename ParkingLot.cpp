@@ -89,7 +89,7 @@ int ParkingLot::getAllHistory(ParkingRecord outRecs[], int maxCount) const {
         outRecs[i] = history[i];
     return count;
 }
-//5. search vehicle (admin function)
+//search vehicle (admin function)
 bool ParkingLot::searchVehicle(const string& vNum, SlotSnapshot& outFound, string* outMsg) const {
     for (int i = 0; i < totalSlots; i++) {
         if (parkingSlots[i].getIsOccupied() && parkingSlots[i].getParkedVehicle().getVehicleNumber() == vNum) {
@@ -106,3 +106,30 @@ bool ParkingLot::searchVehicle(const string& vNum, SlotSnapshot& outFound, strin
     if (outMsg) *outMsg = "Vehicle " + vNum  " not found in active slots.";
     return false;
 }
+//revenue management (admin function)
+double ParkingLot::getRateForType(const string& type) const {
+    for (int i = 0; i < 3; i++)
+        if (rateTypes[i] == type) return rateValues[i];
+    return 50.0;  // fallback
+}
+void ParkingLot::setRateForType(const string& type, double rate) {
+    for (int i = 0; i < 3; i++) {
+        if (rateTypes[i] == type) {
+            rateValues[i] = rate;
+            break;
+        }
+    }
+    saveSettings();  //immediately persisted — survives restart
+}
+//getter and setter
+double ParkingLot::getHourlyRate() const { 
+    return getRateForType("Car");
+}
+void ParkingLot::setHourlyRate(double r) { 
+    setRateForType("Car", r);
+}
+//total revenue (admin func)
+double ParkingLot::getTotalRevenue() const { 
+    return totalRevenue;
+}
+
