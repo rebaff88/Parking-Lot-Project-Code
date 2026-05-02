@@ -132,4 +132,11 @@ void ParkingLot::setHourlyRate(double r) {
 double ParkingLot::getTotalRevenue() const { 
     return totalRevenue;
 }
+//calculate fee based on parking time consumed
+double ParkingLot::calculateFee(double hours, double ratePerHour) const {
+    //agar hours 0 se kam hain (jaise foran nikal li) to kam az kam 0 balance
+    if (hours <= 0) return 0.0;
+    //total fee = time * rate
+    return hours * ratePerHour;
+}
 
