@@ -72,5 +72,20 @@ void ParkingLot::saveHistory() {
         const ParkingRecord& rec = history[i];
         fout << rec.username << "|" << rec.vehicleNumber << "|" << rec.vehicleType << "|" << rec.entryTime << "|" << rec.exitTime << "|"
             << fixed << setprecision(2) << rec.duration << "|" << rec.fee << "|" << rec.slotNumber << "|"  << rec.lockedRate << endl;
-    }out.close();
+    } out.close();
+}
+//USER HISTORY OF PARKING LOT
+int ParkingLot::getUserHistory(const string& username, ParkingRecord outRecs[], int maxCount) const {
+    int count = 0;
+    for (int i = 0; i < historyCount && count < maxCount; i++)
+        if (history[i].username == username)
+            outRecs[count++] = history[i];
+    return count;
+}
+//COMPLETE HISTORY OF PARKING LOT
+int ParkingLot::getAllHistory(ParkingRecord outRecs[], int maxCount) const {
+    int count = (historyCount < maxCount) ? historyCount : maxCount;
+    for (int i = 0; i < count; i++)
+        outRecs[i] = history[i];
+    return count;
 }
