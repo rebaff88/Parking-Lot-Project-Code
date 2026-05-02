@@ -1,8 +1,3 @@
-﻿// ============================================================
-//  ParkingLot.cpp
-//  No vectors, no structs — plain arrays + classes
-//  Rates persist to file so they survive program restarts
-// ============================================================
 #include "ParkingLot.h"
 #include <fstream>
 #include <sstream>
@@ -10,63 +5,21 @@
 #include <ctime>
 #include <cstring>
 #include <iostream>
-
 using namespace std;
 
-// ─── Constructor ─────────────────────────────────────────────
-ParkingLot::ParkingLot()
-    : totalSlots(0), totalRevenue(0.0),
-    historyCount(0),
-    USERS_FILE("users.txt"),
-    HISTORY_FILE("history.txt"),
-    SETTINGS_FILE("settings.txt")
-{
-    // Initialize rate table
-    rateTypes[0] = "Car";   rateValues[0] = 50.0;
-    rateTypes[1] = "Bike";  rateValues[1] = 30.0;
-    rateTypes[2] = "Truck"; rateValues[2] = 80.0;
+ParkingLot::ParkingLot() : totalSlots(0), totalRevenue(0.0), historyCount(0), USERS_FILE("users.txt"), HISTORY_FILE("history.txt"), SETTINGS_FILE("settings.txt")
+{    
 
-    loadSettings();   // overwrites defaults if file exists
-    loadHistory();
-}
-
-// ─── Rate index helper ────────────────────────────────────────
-int ParkingLot::rateIndex(const string& type) const {
-    for (int i = 0; i < 3; i++)
-        if (rateTypes[i] == type) return i;
-    return 0;  // default to Car index
-}
-
-// ─── Initialize ──────────────────────────────────────────────
-void ParkingLot::initialize(int numSlots) {
-    totalSlots = numSlots;
-    for (int i = 0; i < totalSlots; i++)
-        parkingSlots[i] = ParkingSlot(i + 1);
-    saveSettings();
-}
-
-bool ParkingLot::isInitialized() const { return totalSlots > 0; }
-
-// ─── Settings persistence ─────────────────────────────────────
-// File format:
-//   slots=20
-//   revenue=1500.00
-//   rate_Car=50.00
-//   rate_Bike=30.00
-//   rate_Truck=80.00
 void ParkingLot::loadSettings() {
     ifstream fin(SETTINGS_FILE.c_str());
     if (!fin.is_open()) return;
-
     string line;
     while (getline(fin, line)) {
         if (line.empty()) continue;
-
         // slots
         if (line.substr(0, 6) == "slots=") {
             totalSlots = atoi(line.substr(6).c_str());
-        }
-        // revenue
+            // revenue
         else if (line.substr(0, 8) == "revenue=") {
             totalRevenue = atof(line.substr(8).c_str());
         }
@@ -88,85 +41,20 @@ void ParkingLot::loadSettings() {
             rateValues[1] = r;
             rateValues[2] = r;
         }
+        }
+        fin.close();
+        // Rebuild slots array from loaded totalSlots
+        if (totalSlots > 0) {
+            for (int i = 0; i < totalSlots; i++)
+                parkingSlots[i] = ParkingSlot(i + 1);
+        }
     }
-    fin.close();
-
-    // Rebuild slots array from loaded totalSlots
-    if (totalSlots > 0) {
-        for (int i = 0; i < totalSlots; i++)
-            parkingSlots[i] = ParkingSlot(i + 1);
-    }
-}
-
 void ParkingLot::saveSettings() {
     ofstream fout(SETTINGS_FILE.c_str());
-    fout << "slots=" << totalSlots << "\n"
-        << "revenue=" << fixed << setprecision(2) << totalRevenue << "\n"
-        << "rate_Car=" << rateValues[0] << "\n"
-        << "rate_Bike=" << rateValues[1] << "\n"
-        << "rate_Truck=" << rateValues[2] << "\n";
+    fout << "Slots = " << totalSlots << endl << "Revenue = " << fixed << setprecision(2) << totalRevenue << endl << "rate_Car = " << rateValues[0] << endl << "rate_Bike = " << rateValues[1] << endl
+     << "rate_Truck = " << rateValues[2] << endl;
     fout.close();
 }
-
-// ─── History persistence ──────────────────────────────────────
-// Format: username|vehicleNum|vehicleType|entry|exit|dur|fee|slot|lockedRate
-void ParkingLot::loadHistory() {
-    historyCount = 0;
-    ifstream fin(HISTORY_FILE.c_str());
-    if (!fin.is_open()) return;
-
-    string line;
-    while (getline(fin, line) && historyCount < MAX_HISTORY) {
-        if (line.empty()) continue;
-        stringstream ss(line);
-        ParkingRecord rec;
-        string dur, fee, slot, lockedRate;
-
-        getline(ss, rec.username, '|');
-        getline(ss, rec.vehicleNumber, '|');
-        getline(ss, rec.vehicleType, '|');
-        getline(ss, rec.entryTime, '|');
-        getline(ss, rec.exitTime, '|');
-        getline(ss, dur, '|');
-        getline(ss, fee, '|');
-        getline(ss, slot, '|');
-        getline(ss, lockedRate, '|');
-
-        rec.duration = atof(dur.c_str());
-        rec.fee = atof(fee.c_str());
-        rec.slotNumber = atoi(slot.c_str());
-
-        if (lockedRate.empty() || lockedRate == "0") {
-            rec.lockedRate = (rec.duration > 0)
-                ? (rec.fee / rec.duration)
-                : rateValues[0];
-        }
-        else {
-            rec.lockedRate = atof(lockedRate.c_str());
-        }
-        history[historyCount++] = rec;
-    }
-    fin.close();
-}
-
-void ParkingLot::saveHistory() {
-    ofstream fout(HISTORY_FILE.c_str());
-    for (int i = 0; i < historyCount; i++) {
-        const ParkingRecord& rec = history[i];
-        fout << rec.username << "|"
-            << rec.vehicleNumber << "|"
-            << rec.vehicleType << "|"
-            << rec.entryTime << "|"
-            << rec.exitTime << "|"
-            << fixed << setprecision(2)
-            << rec.duration << "|"
-            << rec.fee << "|"
-            << rec.slotNumber << "|"
-            << rec.lockedRate << "\n";
-    }
-    fout.close();
-}
-
 // ─── User management ─────────────────────────────────────────
 
 bool ParkingLot::userExists(const string& uname) const {
@@ -377,25 +265,6 @@ bool ParkingLot::checkoutVehicle(const string& username,
     if (outMsg) *outMsg = "Checkout successful.";
     return true;
 }
-
-// ─── Queries ──────────────────────────────────────────────────
-int ParkingLot::getUserHistory(const string& username,
-    ParkingRecord outRecs[],
-    int maxCount) const {
-    int count = 0;
-    for (int i = 0; i < historyCount && count < maxCount; i++)
-        if (history[i].username == username)
-            outRecs[count++] = history[i];
-    return count;
-}
-
-int ParkingLot::getAllHistory(ParkingRecord outRecs[], int maxCount) const {
-    int count = (historyCount < maxCount) ? historyCount : maxCount;
-    for (int i = 0; i < count; i++)
-        outRecs[i] = history[i];
-    return count;
-}
-
 int ParkingLot::getAllSlotsSnapshot(SlotSnapshot outSnaps[],
     int maxCount) const {
     int count = (totalSlots < maxCount) ? totalSlots : maxCount;
@@ -412,50 +281,8 @@ int ParkingLot::getAllSlotsSnapshot(SlotSnapshot outSnaps[],
         outSnaps[i] = ss;
     }
     return count;
-}
-
-bool ParkingLot::searchVehicle(const string& vNum, SlotSnapshot& outFound,
-    string* outMsg) const {
-    for (int i = 0; i < totalSlots; i++) {
-        if (parkingSlots[i].getIsOccupied() &&
-            parkingSlots[i].getParkedVehicle().getVehicleNumber() == vNum) {
-            outFound.slotNumber = parkingSlots[i].getSlotNumber();
-            outFound.occupied = true;
-            outFound.vehicleNumber = parkingSlots[i].getParkedVehicle().getVehicleNumber();
-            outFound.vehicleType = parkingSlots[i].getParkedVehicle().getVehicleType();
-            outFound.entryTime = parkingSlots[i].getParkedVehicle().getEntryTimeStr();
-            outFound.lockedRate = parkingSlots[i].getLockedRate();
-            if (outMsg) *outMsg = "Vehicle found at Slot " + to_string(outFound.slotNumber);
-            return true;
-        }
-    }
-    if (outMsg) *outMsg = "Vehicle " + vNum + " not found in active slots.";
-    return false;
-}
-
-// ─── Rate management ──────────────────────────────────────────
-double ParkingLot::getRateForType(const string& type) const {
-    for (int i = 0; i < 3; i++)
-        if (rateTypes[i] == type) return rateValues[i];
-    return 50.0;  // fallback
-}
-
-void ParkingLot::setRateForType(const string& type, double rate) {
-    for (int i = 0; i < 3; i++) {
-        if (rateTypes[i] == type) {
-            rateValues[i] = rate;
-            break;
-        }
-    }
-    saveSettings();  // immediately persisted — survives restart
-}
-
-double ParkingLot::getHourlyRate()     const { return getRateForType("Car"); }
-void   ParkingLot::setHourlyRate(double r) { setRateForType("Car", r); }
-
-// ─── Stats ────────────────────────────────────────────────────
-double ParkingLot::getTotalRevenue()   const { return totalRevenue; }
-int    ParkingLot::getTotalSlots()     const { return totalSlots; }
+} 
+    int    ParkingLot::getTotalSlots()     const { return totalSlots; }
 int    ParkingLot::getOccupiedSlots()  const {
     int c = 0;
     for (int i = 0; i < totalSlots; i++)
@@ -489,10 +316,69 @@ int ParkingLot::findFirstAvailableSlot() const {
     return -1; // Parking full hai
 }
 
-double ParkingLot::calculateFee(double hours, double ratePerHour) const {
-    // Agar hours 0 se kam hain (jaise foran nikal li) to kam az kam 0 balance
-    if (hours <= 0) return 0.0;
 
-    // Total fee = gante * rate
-    return hours * ratePerHour;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
