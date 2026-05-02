@@ -6,6 +6,7 @@
 #include <cstring>
 #include <iostream>
 using namespace std;
+//25L-5683
 ParkingLot::ParkingLot() : totalSlots(0), totalRevenue(0.0), historyCount(0), USERS_FILE("users.txt"), HISTORY_FILE("history.txt"), SETTINGS_FILE("settings.txt")
 {
     //initialize rate table
@@ -139,4 +140,51 @@ double ParkingLot::calculateFee(double hours, double ratePerHour) const {
     //total fee = time * rate
     return hours * ratePerHour;
 }
+//25L-2056
+//setting & file format, slots=20, revenue=1500.00, rate_Car=50.00, rate_Bike=30.00, rate_Truck=80.00
+void ParkingLot::loadSettings() {
+    ifstream fin(SETTINGS_FILE.c_str());
+    if (!fin.is_open()) return;
+    string line;
+    while (getline(fin, line)) {
+        if (line.empty()) continue;
+        // slots
+        if (line.substr(0, 6) == "Slots = ") {
+            totalSlots = atoi(line.substr(6).c_str());
+            // revenue
+        else if (line.substr(0, 8) == "Revenue = ") {
+            totalRevenue = atof(line.substr(8).c_str());
+        }
+        // per-type rates  — rate_Car=, rate_Bike=, rate_Truck=
+        else if (line.substr(0, 9) == "rate_Car = ") {
+            rateValues[0] = atof(line.substr(9).c_str());
+        }
+        else if (line.substr(0, 10) == "rate_Bike = ") {
+            rateValues[1] = atof(line.substr(10).c_str());
+        }
+        else if (line.substr(0, 11) == "rate_Truck=") {
+            rateValues[2] = atof(line.substr(11).c_str());
+        }
+        // backward compat: old single "rate=" key → apply to all types
+        else if (line.substr(0, 5) == "rate=" && line.substr(0, 6) != "rate_") {
+            double r = atof(line.substr(5).c_str());
+            rateValues[0] = r;
+            rateValues[1] = r;
+            rateValues[2] = r;
+        }
+        }
+        fin.close();
+        // Rebuild slots array from loaded totalSlots
+        if (totalSlots > 0) {
+            for (int i = 0; i < totalSlots; i++)
+                parkingSlots[i] = ParkingSlot(i + 1);
+        }
+    }
+void ParkingLot::saveSettings() {
+    ofstream fout(SETTINGS_FILE.c_str());
+    fout << "Slots = " << totalSlots << endl << "Revenue = " << fixed << setprecision(2) << totalRevenue << endl << "rate_Car = " << rateValues[0] << endl << "rate_Bike = " << rateValues[1] << endl
+     << "rate_Truck = " << rateValues[2] << endl;
+    fout.close();
+}
+
 
