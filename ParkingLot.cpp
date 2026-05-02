@@ -89,3 +89,20 @@ int ParkingLot::getAllHistory(ParkingRecord outRecs[], int maxCount) const {
         outRecs[i] = history[i];
     return count;
 }
+//5. search vehicle (admin function)
+bool ParkingLot::searchVehicle(const string& vNum, SlotSnapshot& outFound, string* outMsg) const {
+    for (int i = 0; i < totalSlots; i++) {
+        if (parkingSlots[i].getIsOccupied() && parkingSlots[i].getParkedVehicle().getVehicleNumber() == vNum) {
+            outFound.slotNumber = parkingSlots[i].getSlotNumber();
+            outFound.occupied = true;
+            outFound.vehicleNumber = parkingSlots[i].getParkedVehicle().getVehicleNumber();
+            outFound.vehicleType = parkingSlots[i].getParkedVehicle().getVehicleType();
+            outFound.entryTime = parkingSlots[i].getParkedVehicle().getEntryTimeStr();
+            outFound.lockedRate = parkingSlots[i].getLockedRate();
+            if (outMsg) *outMsg = "Vehicle found at Slot " + to_string(outFound.slotNumber);
+            return true;
+        }
+    }
+    if (outMsg) *outMsg = "Vehicle " + vNum  " not found in active slots.";
+    return false;
+}
