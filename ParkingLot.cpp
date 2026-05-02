@@ -269,5 +269,64 @@ int ParkingLot::getAllUsernames(string outUsers[], int maxLen) const {
     }
     return count;
 }
+//parking operations logic
+//park vehicle
+bool ParkingLot::parkVehicle(const string& username, const string& vNum, const string& vType, int& assignedSlot, string* outMsg) {
+    (void)username;
+    if (totalSlots == 0) {
+        if (outMsg) *outMsg = "Parking lot not initialized!";
+        return false;
+    }
+    if (findSlotByVehicle(vNum) != -1) {
+        if (outMsg) *outMsg = "Vehicle " + vNum + " is already parked!";
+        return false;
+    }
+    int idx = findFirstAvailableSlot();
+    if (idx == -1) {
+        if (outMsg) *outMsg = "No available slots!";
+        return false;
+    }
+    Vehicle v(vNum, vType);
+    v.setEntryTime(time(nullptr));
+    double lockedRate = getRateForType(vType);
+    parkingSlots[idx].parkVehicle(v, lockedRate);
+    assignedSlot = parkingSlots[idx].getSlotNumber();
+    ostringstream oss;
+    oss << "Vehicle parked at Slot " << assignedSlot << "  |  Rate locked: Rs. " << fixed << setprecision(2) << lockedRate << "/hr";
+    if (outMsg) *outMsg = oss.str();
+    return true;
+}
+//checkout vehicle
+bool ParkingLot::checkoutVehicle(const string& username, int slotNum, ParkingRecord& outRecord, double& outFee, string* outMsg) {
+    int idx = slotNum - 1;
+    if (idx < 0 || idx >= totalSlots || !parkingSlots[idx].getIsOccupied()) {
+        if (outMsg) *outMsg = "Invalid or empty slot number: " + to_string(slotNum);
+        return false;
+    }
+    Vehicle v = parkingSlots[idx].getParkedVehicle();
+    double  lockedRate = parkingSlots[idx].getLockedRate();   
+    v.setExitTime(time(nullptr));
+    double hours = v.getParkingDurationHours();
+    double fee = calculateFee(hours, lockedRate);
+    totalRevenue += fee;
+    saveSettings();
+    outRecord.username = username;
+    outRecord.vehicleNumber = v.getVehicleNumber();
+    outRecord.vehicleType = v.getVehicleType();
+    outRecord.entryTime = v.getEntryTimeStr();
+    outRecord.exitTime = v.getExitTimeStr();
+    outRecord.duration = hours;
+    outRecord.fee = fee;
+    outRecord.lockedRate = lockedRate;
+    outRecord.slotNumber = slotNum;
+    outFee = fee;
+    if (historyCount < MAX_HISTORY)
+        history[historyCount++] = outRecord;
+    saveHistory();
+    parkingSlots[idx].removeVehicle();
+    if (outMsg) *outMsg = "Checkout successful.";
+    return true;
+}
+
 
 
