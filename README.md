@@ -1,5 +1,5 @@
 🚗 Parking Lot Management System, Made By
-Reba Fawad, Abdullah Yasar, Ratayba Ali amd Abdullah Saleem
+Reba Fawad, Abdullah Yasar, Ratayba Ali and Abdullah Saleem
 
 The Parking Management System is a console-based application developed in C++ to efficiently manage user accounts and parking-related operations. The purpose of this project is to demonstrate the practical implementation of Object-Oriented Programming (OOP) concepts along with file handling for persistent data storage. The system allows users to register, log in, and manage their accounts while maintaining records in a structured text file.
 
