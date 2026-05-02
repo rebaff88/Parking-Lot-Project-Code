@@ -16,34 +16,31 @@ class Vehicle {
 private:
     string vehicleNumber;
     string vehicleType;     // Car, Bike, Truck
-    time_t entryTime;
-    time_t exitTime;
+    time_t entryTimestamp;
+    time_t exitTimestamp;
 
 public:
-    // Constructors
     Vehicle();
     Vehicle(const string& vNum, const string& vType);
 
-    // Setters
     void setVehicleNumber(const string& vNum);
     void setVehicleType(const string& vType);
     void setEntryTime(time_t t);
     void setExitTime(time_t t);
 
-    // Getters
     string getVehicleNumber() const;
     string getVehicleType()   const;
-    time_t getEntryTime()     const;
-    time_t getExitTime()      const;
+    time_t getEntryTimestamp() const;
+    time_t getExitTime()       const;
 
-    // Utility
     string getEntryTimeStr()  const;
     string getExitTimeStr()   const;
     double getParkingDurationHours() const;
 
-    // Display
     void displayVehicleInfo() const;
+
+private:
+    static string timeToStr(time_t t);
 };
 
 #endif // VEHICLE_H
-
