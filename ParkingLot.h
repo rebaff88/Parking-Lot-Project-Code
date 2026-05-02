@@ -23,6 +23,17 @@ public:
     ParkingRecord() : duration(0.0), fee(0.0), lockedRate(0.0), slotNumber(0) {
     }
 };
+class SlotSnapshot {
+public:
+    int slotNumber;
+    bool occupied;
+    string vehicleNumber;
+    string vehicleType;
+    string entryTime;
+    double lockedRate;
+    SlotSnapshot() : slotNumber(0), occupied(false), lockedRate(0.0) {
+    }
+};
 class ParkingLot {
 public:
     ParkingLot();
