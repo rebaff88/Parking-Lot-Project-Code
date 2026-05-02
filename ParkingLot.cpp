@@ -374,7 +374,7 @@ bool ParkingLot::checkoutVehicle(const string& username, int slotNum, ParkingRec
     if (outMsg) *outMsg = "Checkout successful.";
     return true;
 }
-//get stas
+//get stats
 int ParkingLot::getTotalSlots() const { return totalSlots; }
 int ParkingLot::getOccupiedSlots()  const {
     int c = 0;
