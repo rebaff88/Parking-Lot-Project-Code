@@ -6,6 +6,8 @@ The Parking Management System is a console-based application developed in C++ to
 The system provides several key features, including user sign-up, secure login functionality, logout option, and account deletion. During sign-up, user details such as name, password, and role (Admin or Customer). For login, the system verifies the entered credentials by reading from the stored file data. Additionally, users can safely log out or delete their accounts, with proper file handling techniques used to update records without data corruption.
 
 The project utilizes C++ programming language along with standard libraries such as iostream, fstream, and string. File handling is crucial for storing and managing user data, while OOP principles structure the system cleanly and organized. The application runs entirely in a console environment and provides a simple user interface for interaction.
+<img width="736" height="490" alt="WhatsApp Image 2026-05-03 at 12 27 07 PM" src="https://github.com/user-attachments/assets/9a1bac13-7f2a-4132-aa1d-2da902a17acc" />
+
 
 In terms of working logic, when a user signs up, their information is appended to a file. During login, the system reads and compares the input data with stored records. If the credentials match, access is granted; otherwise, appropriate error messages are displayed. For account deletion, a temporary file is created, and all data except the deleted user is copied into it. The original file is then replaced with the updated one to ensure safe deletion.
 
