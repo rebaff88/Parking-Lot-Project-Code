@@ -23,23 +23,48 @@ public:
     ParkingRecord() : duration(0.0), fee(0.0), lockedRate(0.0), slotNumber(0) {
     }
 };
+class SlotSnapshot {
+public:
+    int slotNumber;
+    bool occupied;
+    string vehicleNumber;
+    string vehicleType;
+    string entryTime;
+    double lockedRate;
+    SlotSnapshot() : slotNumber(0), occupied(false), lockedRate(0.0) {
+    }
+};
 class ParkingLot {
 public:
     ParkingLot();
     void initialize(int numSlots);
     bool isInitialized() const;
+    //USER MANAGEMENT & PARKING OPERATIONS (25L-2056)
+    bool signupUser(const string& uname, const string& pwd, const string& role, string* outMsg = nullptr);
+    User* loginUser(const string& uname, const string& pwd);
+    bool  deleteUser(const string& uname, string* outMsg = nullptr);
+    // Returns count; fills outNames[0..count-1]
+    int   getAllUsernames(string outNames[], int maxCount) const;
+    //parking operations
+    bool parkVehicle(const string& username, const string& vNum, const string& vType, int& assignedSlot, string* outMsg = nullptr);
+    bool checkoutVehicle(const string& username, int slotNum, ParkingRecord& outRecord, double& outFee, string* outMsg = nullptr);
     //search vehicle (admin func)
     bool searchVehicle(const string& vNum, SlotSnapshot& outFound, string* outMsg = nullptr) const;
     //history
     //returns count, fills outRecs[0..count-1]
     int  getUserHistory(const string& username, ParkingRecord outRecs[], int maxCount) const;
     int  getAllHistory(ParkingRecord outRecs[], int maxCount) const;
+    int  getAllSlotsSnapshot(SlotSnapshot outSnaps[], int maxCount) const;
     //revenue management (admin func)
     double getTotalRevenue()   const;
     double getRateForType(const string& type) const;
     void setRateForType(const string& type, double rate);
     double getHourlyRate() const;
     void   setHourlyRate(double r);
+ //stats (25L-2056)
+ int getTotalSlots() const;
+ int getOccupiedSlots() const;
+ int getAvailableSlots() const;
 private:
     int totalSlots;
     double totalRevenue;
@@ -52,6 +77,11 @@ private:
     const string USERS_FILE;
     const string HISTORY_FILE;
     const string SETTINGS_FILE;
+
+bool userExists(const string& uname) const;
+int findFirstAvailableSlot() const;
+int findSlotByVehicle(const string& vNum) const;
+    
     double calculateFee(double hours, double rate) const;
     void loadSettings();
     void saveSettings();
